@@ -80,6 +80,7 @@ const Home = () => {
     <div className="login-form">
         <h2>Login</h2>
         <form>
+          
             <div className="input-group">
                 <PersonIcon className="material__icon"/>
                 <input type="text" placeholder="Username" onChange={e=>setUser(e.target.value)} value={user}  required/>
