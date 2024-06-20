@@ -22,7 +22,7 @@ function YourComponent() {
     setError(null);
 
     try {
-      const response = await fetch("https://my-last-project.onrender.com/api/add-customer", {
+      const response = await fetch("/api/add-customer", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
