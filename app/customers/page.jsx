@@ -36,11 +36,11 @@ function Customers() {
     console.log(Math.floor(Math.random() * 1234567890987654321));
 
     if (localStorage.getItem("password") == null) {
-      window.location.replace("http://localhost:3000/");
+      window.location.replace("https://my-last-project.onrender.com");
     } else {
       const fetchData = async () => {
         try {
-          const response = await fetch("/api/customers"); // Replace with your actual API route
+          const response = await fetch("https://my-last-project.onrender.com/api/customers"); // Replace with your actual API route
           if (!response.ok) {
             throw new Error("Failed to fetch data");
           }
@@ -73,7 +73,7 @@ function Customers() {
       // Code to delete the customer
       // alert("Customer deleted!");
       try {
-        const response = await fetch("/api/delete-customer", {
+        const response = await fetch("https://my-last-project.onrender.com/api/delete-customer", {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
@@ -131,7 +131,7 @@ function Customers() {
 
     // write a code for updating customers infos
     try {
-      const response = fetch("/api/update-customer", {
+      const response = fetch("https://my-last-project.onrender.com/api/update-customer", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

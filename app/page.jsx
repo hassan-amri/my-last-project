@@ -20,7 +20,7 @@ const Home = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("/api/login"); // Replace with your actual API route
+        const response = await fetch("https://my-last-project.onrender.com/api/login"); // Replace with your actual API route
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
