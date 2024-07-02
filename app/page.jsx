@@ -1,8 +1,8 @@
-'use client'
-import React,{useState,useEffect} from "react";
-import './page.css'
-import PersonIcon from '@mui/icons-material/Person';
-import LockIcon from '@mui/icons-material/Lock';
+"use client";
+import React, { useState, useEffect } from "react";
+import "./page.css";
+import PersonIcon from "@mui/icons-material/Person";
+import LockIcon from "@mui/icons-material/Lock";
 import { useRouter } from "next/navigation";
 const Home = () => {
   // router
@@ -11,25 +11,24 @@ const Home = () => {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [user,setUser] = useState('');
-  const [password,setPassword] = useState('');
+  const [user, setUser] = useState("");
+  const [password, setPassword] = useState("");
 
 
- 
 
   useEffect(() => {
+    
+   
     const fetchData = async () => {
       try {
-        const response = await fetch("https://my-last-project.onrender.com/api/login"); // Replace with your actual API route
+        const response = await fetch("/api/loginDeatails"); // Replace with your actual API route
         if (!response.ok) {
           throw new Error("Failed to fetch data");
         }
         const jsonData = await response.json();
         console.log(jsonData[0].user);
-        
-        
+
         setData(jsonData);
-        
       } catch (error) {
         setError(error);
       } finally {
@@ -38,62 +37,79 @@ const Home = () => {
     };
 
     fetchData();
-    
   }, []);
 
   const handleLogin = async (e) => {
-    e.preventDefault();
+    if (user === "" && password === "") {
+      alert("please enter user and password");
+    }
+    else if(user === ''){
+      alert('please enter a user');
+      return;
+    }
+    else if( password === ''){
+      alert('please enter a password');
+      return;
+    }
+    else{
+      e.preventDefault();
     console.log(data);
-    
 
     await data.map((item) => {
       // console.log(item.user);
       // console.log(item.password);
       // console.log('this is '+user);
       
-     
-      if(user === item.user && password === item.password){
+
+      if (user === item.user.trim() && password === item.password.trim()) {
         // localStorage.setItem("user", item.user);
         localStorage.setItem("password", item.password);
-        router.push("/customers")
+        router.push("/customers");
       }
-      else{
-        if(user === '' || password === ''){
-          alert("please enter user and password")
+       else {
+        if (user === "" || password === "") {
+          alert("please enter user and password");
+        } else {
+          alert("user or password is incorrect");
         }
-        else{
-          alert('user or password is incorrect')
-        }
-        
       }
-
-    })
-    
-    
+    });
+    }
     
   };
-  
-  return <div className="home__page">
 
-    
-   
-    <div className="login-form">
+  return (
+    <div className="home__page">
+      <div className="login-form">
         <h2>Login</h2>
         <form>
-          
-            <div className="input-group">
-                <PersonIcon className="material__icon"/>
-                <input type="text" placeholder="Username" onChange={e=>setUser(e.target.value)} value={user}  required/>
-            </div>
-            <div className="input-group">
-                <LockIcon className="material__icon"/>
-                <input type="password" placeholder="Password" onChange={e=>setPassword(e.target.value)} value={password} required/>
-            </div>
-            <button type="submit" onClick={handleLogin}>Login</button>
+          <div className="input-group">
+            <PersonIcon className="material__icon" />
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setUser(e.target.value)}
+              value={user}
+              required
+            />
+          </div>
+          <div className="input-group">
+            <LockIcon className="material__icon" />
+            <input
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              value={password}
+              required
+            />
+          </div>
+          <button type="submit" onClick={handleLogin}>
+            Login
+          </button>
         </form>
+      </div>
     </div>
-	
-  </div>;
+  );
 };
 
 export default Home;

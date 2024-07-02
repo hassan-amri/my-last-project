@@ -16,12 +16,11 @@ function Customers() {
 
   const [clickCount, setClickCount] = useState(0);
 
-
   // getting customers
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
-  //  const [customerId, setCustomerId] = useState('');
+
   const [message, setMessage] = useState("");
   const [refreshing, setRefreshing] = useState(false);
 
@@ -30,17 +29,17 @@ function Customers() {
   // update button text
   const [updateButtonText, setUpdateButtonText] = useState(true);
 
-  let randomKey = Math.floor(Math.random() * 1234567890987654321);
+  
 
   useEffect(() => {
-    console.log(Math.floor(Math.random() * 1234567890987654321));
+    
 
     if (localStorage.getItem("password") == null) {
-      window.location.replace("http://localhost:3000/");
+      window.location.replace(`http://localhost:${window.location.port}/`);
     } else {
       const fetchData = async () => {
         try {
-          const response = await fetch("https://my-last-project.onrender.com/api/customers"); // Replace with your actual API route
+          const response = await fetch("/api/customers"); // Replace with your actual API route
           if (!response.ok) {
             throw new Error("Failed to fetch data");
           }
@@ -107,13 +106,16 @@ function Customers() {
 
   // updating customer
 
-  const handleUpdateCustomer = (customerId) => {
+
+  const handleUpdateCustomer = async (customerId) => {
     setUpdateButtonText(true);
 
-     setClickCount(prevCount => prevCount + 1);
+    
+
+    setClickCount((prevCount) => prevCount + 1);
+    console.log(clickCount);
 
     
-     
 
     document
       .querySelectorAll("input[data-customer-id]")
@@ -128,10 +130,13 @@ function Customers() {
           item.style.border = "1px solid red";
         }
       });
+      
 
     // write a code for updating customers infos
-    try {
-      const response = fetch("/api/update-customer", {
+    
+    if (clickCount === 1) {
+      try {
+      const response = await fetch("/api/update-customer", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -147,18 +152,12 @@ function Customers() {
     } catch (error) {
       // setError(error.message);
       console.log("this is error message " + error.message);
-      
     } finally {
       // setLoading(false);
     }
-  
-
-  if(clickCount === 1){
-    window.location.reload();
-    setClickCount(0);
-  }
-
-    
+      window.location.reload();
+      setClickCount(0);
+    }
 
     console.log(customerId);
   };
@@ -172,7 +171,7 @@ function Customers() {
 
   return (
     <div className="customers__page" id="customers__page">
-      <Header/>
+      <Header />
       <h1>Customers List</h1>
       <table>
         <thead>

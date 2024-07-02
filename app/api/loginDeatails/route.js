@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
 import pool from "@/app/libs/mysql";
 
+
 export async function GET() {
+  
   try {
     const db = await pool.getConnection();
     const query = "select * from login";

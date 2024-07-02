@@ -8,9 +8,14 @@ export async function POST(request) {
     // Additional validation/sanitization of input values
     
     const db = await pool.getConnection();
-    const query = "INSERT INTO customer (name, email) VALUES (?, ?)";
+    if(name && email) {
+const query = "INSERT INTO customer (name, email) VALUES (?, ?)";
     await db.execute(query, [name, email]);
     db.release();
+    }else{
+      return NextResponse.json({ error: 'Missing name or email' }, { status: 400 });
+    }
+    
 
     return NextResponse.json({ success: true });
   } catch (error) {
